@@ -25,7 +25,7 @@ class HomeView(TemplateView):
 
         context["featured_post"] = (
             Post.objects.filter(published_at__isnull=False, status="active")
-            .order_by("-published_at", "-views_count")
+            .order_by("-published_at", "-view_count")
             .first()
         )
 
@@ -36,7 +36,7 @@ class HomeView(TemplateView):
         one_week_ago = timezone.now() - timedelta(days=7)
         context["week_top_posts"] = Post.objects.filter(
             published_at__isnull=False, status="active", published_at__gte=one_week_ago
-        ).order_by("-published_at", "-views_count")[:5]
+        ).order_by("-published_at", "-view_count")[:5]
 
         context["popular_posts"] = Post.objects.filter(
             published_at__isnull=False, status="active"
