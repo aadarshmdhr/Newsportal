@@ -2,7 +2,7 @@
 <div class="card mb-4 featured-story-card shadow-sm">
   <img src="{{ featured_post.featured_image.url }}" class="card-img-top" alt="{{ featured.post.title }}" width="800" height="600" />
   <div class="card-body">
-    <h2 class="card-title fw-bold">{{ featured_post.title}}</h2>
+    <h2 class="card-title fw-bold">{{ featured_post.title }}</h2>
     <p class="card-text">
       {{ featured_post.content|truncatechars:200 }} </p>
     <a href="article.html" class="btn btn-success">Read More <i class="bi bi-arrow-right-short"></i></a>
