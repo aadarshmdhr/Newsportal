@@ -7,7 +7,7 @@
     <!-- Changed ol to ul for flexibility -->
     {% for post in popular_posts %}
     <li>
-      <img src="https://placehold.co/70x70/28a745/ffffff?text=P1" alt="Popular 1" />
+      <img src="{{ post.featured_image.url }}" alt="Popular 1" />
       <div>
         <a href="article.html" class="popular-title-link">{{ post.title }}</a>
         <p class="popular-description">{{ post.content|truncatechars:60 }}</p>
