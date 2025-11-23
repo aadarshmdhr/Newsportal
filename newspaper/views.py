@@ -1,6 +1,6 @@
 from django.shortcuts import render
 
-from newspaper.models import Post
+from newspaper.models import Advertisement, Post
 
 from django.views.generic import TemplateView, ListView, DetailView
 from django.utils import timezone
@@ -9,8 +9,22 @@ from datetime import timedelta
 
 # Create your views here.
 
+class SidebarMixin:
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
 
-class HomeView(TemplateView):
+        context["popular_posts"] = Post.objects.filter(
+            published_at__isnull=False, status="active"
+        ).order_by("-published_at")[:5]
+
+        context["advertisement"] = (
+            Advertisement.objects.all().order_by("-created_at").first()
+        )
+
+        return context
+
+
+class HomeView(SidebarMixin, TemplateView):
     template_name = "newsportal/home.html"
 
 
@@ -38,14 +52,10 @@ class HomeView(TemplateView):
             published_at__isnull=False, status="active", published_at__gte=one_week_ago
         ).order_by("-published_at", "-view_count")[:5]
 
-        context["popular_posts"] = Post.objects.filter(
-            published_at__isnull=False, status="active"
-        ).order_by("-published_at")[:5]
-
         return context
     
 
-class PostListView(ListView):
+class PostListView(SidebarMixin, ListView):
     model = Post
     template_name = "newsportal/list/list.html"
     context_object_name = "posts"
@@ -56,16 +66,8 @@ class PostListView(ListView):
             published_at__isnull=False, status="active"
         ).order_by("-published_at")
     
-    def get_context_data(self, **kwargs):
-        context = super().get_context_data(**kwargs)
-        context["popular_posts"] = Post.objects.filter(
-            published_at__isnull=False, status="active"
-        ).order_by("-published_at")[:5]
-        
-        return context
-    
 
-class PostDetailView(DetailView):
+class PostDetailView(SidebarMixin, DetailView):
     model = Post
     template_name = "newsportal/detail/detail.html"
     context_object_name = "post"
@@ -75,3 +77,17 @@ class PostDetailView(DetailView):
         query = query.filter(published_at__isnull=False, status="active")
         
         return query
+    
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+
+        context["related_articles"] = (
+            Post.objects.filter(
+                published_at__isnull=False,
+                status="active",
+                category=self.object.category,
+            )
+            .exclude(id=self.object.id)
+            .order_by("-published_at", "-view_count")[:2]
+        )
+        return context
