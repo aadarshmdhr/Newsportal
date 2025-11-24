@@ -1,6 +1,6 @@
 from django.shortcuts import render
 
-from newspaper.models import Advertisement, Post
+from newspaper.models import Advertisement, Post, Contact
 
 from django.views.generic import TemplateView, ListView, DetailView, CreateView
 from django.utils import timezone
