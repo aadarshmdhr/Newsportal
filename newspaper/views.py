@@ -1,6 +1,6 @@
 from django.shortcuts import render
 
-from newspaper.models import Advertisement, Post, Contact, Category
+from newspaper.models import Advertisement, Post, Contact, Category, OurTeam
 
 from django.views.generic import TemplateView, ListView, DetailView, CreateView
 from django.utils import timezone
@@ -120,3 +120,11 @@ class CategoryListView(ListView):
     model = Category
     template_name = "newsportal/categories.html"
     context_object_name = "categories"
+
+class AboutView(TemplateView):
+    template_name = "newsportal/about.html"
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context["our_teams"] = OurTeam.objects.all()
+        return context
