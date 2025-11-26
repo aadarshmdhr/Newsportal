@@ -7,4 +7,5 @@ urlpatterns = [
     path("post-list/", views.PostListView.as_view(), name="post-list"),
     path("post-detail/<int:pk>/", views.PostDetailView.as_view(), name="post-detail"),
     path("contact/", views.ContactCreateView.as_view(), name="contact"),
+    path("categories/", views.CategoryListView.as_view(), name="categories"),
 ]

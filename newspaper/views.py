@@ -1,6 +1,6 @@
 from django.shortcuts import render
 
-from newspaper.models import Advertisement, Post, Contact
+from newspaper.models import Advertisement, Post, Contact, Category
 
 from django.views.generic import TemplateView, ListView, DetailView, CreateView
 from django.utils import timezone
@@ -115,3 +115,8 @@ class ContactCreateView(SuccessMessageMixin, CreateView):
             "There was an error sending your message. Please check the form.",
         )
         return super().form_invalid(form)
+    
+class CategoryListView(ListView):
+    model = Category
+    template_name = "newsportal/categories.html"
+    context_object_name = "categories"
