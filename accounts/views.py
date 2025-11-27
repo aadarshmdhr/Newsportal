@@ -8,7 +8,7 @@ from .forms import RegistertionForm
 class RegisterView(View):
     def get(self, request):
         form = RegistertionForm()
-        return render(request, "registration/register.html", {"form:" form})
+        return render(request, "registration/register.html", {"form": form})
     
     def post(self, request):
         form = RegistertionForm(request.POST)
