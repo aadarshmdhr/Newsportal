@@ -5,11 +5,12 @@ from newspaper.models import Advertisement, Post, Contact, Category, OurTeam
 from django.views.generic import TemplateView, ListView, DetailView, CreateView
 from django.utils import timezone
 from datetime import timedelta
+from django.views.generic.edit import FormMixin
 
 from django.contrib.messages.views import SuccessMessageMixin
 from django.contrib import messages
 from django.urls import reverse_lazy
-from newspaper.forms import ContactForm
+from newspaper.forms import CommentForm, ContactForm
 
 
 # Create your views here.
@@ -72,16 +73,34 @@ class PostListView(SidebarMixin, ListView):
         ).order_by("-published_at")
     
 
-class PostDetailView(SidebarMixin, DetailView):
+class PostDetailView(SidebarMixin, FormMixin, DetailView):
     model = Post
     template_name = "newsportal/detail/detail.html"
     context_object_name = "post"
+    form_class = CommentForm
 
     def get_queryset(self):
         query = super().get_queryset()
         query = query.filter(published_at__isnull=False, status="active")
         
         return query
+    
+    def post(self, request, *args, **kwargs):
+        self.object = self.get_object()
+        form = self.get_form()
+        if form.is_valid():
+            return self.form_valid(form)
+        else:
+            return self.form_invalid(form)
+        
+    def form_valid(self, form):
+        comment = form.save(commit=False)
+        comment.post = self.object
+        comment.user = self.request.user
+        comment.save()
+        messages.success(self.request, "Your comment has been added successfully.")
+        return super().form_valid(form)
+    
     
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
@@ -128,3 +147,4 @@ class AboutView(TemplateView):
         context = super().get_context_data(**kwargs)
         context["our_teams"] = OurTeam.objects.all()
         return context
+    
