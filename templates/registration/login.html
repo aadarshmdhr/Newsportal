@@ -14,7 +14,7 @@
                     <div class="alert alert-danger">Your username or password didn't match. Please try againn</div>
                     {% endif %}
 
-                    <form action="post" action="{% url 'accounts:login' %}">
+                    <form method="post" action="{% url 'accounts:login' %}">
                         {% csrf_token %}
                         {{ form.as_p }}
                         <button type="submit" class="btn btn-primary">Login</button>
