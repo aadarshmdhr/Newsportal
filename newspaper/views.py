@@ -9,7 +9,7 @@ from django.views.generic.edit import FormMixin
 
 from django.contrib.messages.views import SuccessMessageMixin
 from django.contrib import messages
-from django.urls import reverse_lazy
+from django.urls import reverse, reverse_lazy
 from newspaper.forms import CommentForm, ContactForm
 
 
@@ -95,13 +95,22 @@ class PostDetailView(SidebarMixin, FormMixin, DetailView):
         
     def form_valid(self, form):
         comment = form.save(commit=False)
-        comment.post = self.object
+        # comment.post = self.object
         comment.user = self.request.user
         comment.save()
         messages.success(self.request, "Your comment has been added successfully.")
         return super().form_valid(form)
     
+    def form_invalid(self, form):
+        messages.error(
+            self.request, "There was an error with your comment. Please check the form."
+        )
+        return super().form_invalid(form)
     
+    def get_success_url(self):
+        return reverse("post-detail", kwargs={"pk": self.object.pk})
+
+
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
 
