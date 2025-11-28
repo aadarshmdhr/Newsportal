@@ -9,7 +9,7 @@
     <div class="p-4 rounded bg-light shadow-sm tag-cloud-container">
         <!-- Use the existing .article-tags styling for consistency -->
         <div class="article-tags">
-            <a href="{% url 'tags' %}">All Tags</a>
+            <a href="tags.html">{{ tag.name|title }}</a>
             <!-- Add more tags as needed -->
         </div>
     </div>

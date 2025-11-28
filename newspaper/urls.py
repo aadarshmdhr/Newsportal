@@ -9,7 +9,7 @@ urlpatterns = [
     path("contact/", views.ContactCreateView.as_view(), name="contact"),
     path("categories/", views.CategoryListView.as_view(), name="categories"),
     path("about/", views.AboutView.as_view(), name="about"),
-    path("tags/", views.tags, name="tags"),
+    path("tags/", views.TagListView.as_view(), name="tags"),
     path("post-by-category/<int:category_id>/", views.PostByCategoryView.as_view(), name="post-by-category"),
     path("newsletter/", views.NewsletterView.as_view(), name="newsletter"),
 ]

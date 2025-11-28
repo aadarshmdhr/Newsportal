@@ -158,13 +158,11 @@ class AboutView(TemplateView):
         context["our_teams"] = OurTeam.objects.all()
         return context
     
-def tags(request):
-    all_tags = Tag.objects.all()
-    return render(
-        request,
-        "tags.html",
-        {"tags": all_tags}
-    )
+class TagListView(ListView):
+    model = Tag
+    template_name = "newsportal/tags.html"
+    context_object_name = "tags"
+    
 
 class PostByCategoryView(SidebarMixin, ListView):
     model = Post
