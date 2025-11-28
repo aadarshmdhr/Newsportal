@@ -1,8 +1,9 @@
+from django.http import JsonResponse
 from django.shortcuts import render
 
 from newspaper.models import Advertisement, Post, Contact, Category, OurTeam, Tag
 
-from django.views.generic import TemplateView, ListView, DetailView, CreateView
+from django.views.generic import TemplateView, ListView, DetailView, CreateView, View
 from django.utils import timezone
 from datetime import timedelta
 from django.views.generic.edit import FormMixin
@@ -10,7 +11,7 @@ from django.views.generic.edit import FormMixin
 from django.contrib.messages.views import SuccessMessageMixin
 from django.contrib import messages
 from django.urls import reverse, reverse_lazy
-from newspaper.forms import CommentForm, ContactForm
+from newspaper.forms import CommentForm, ContactForm, NewsletterForm
 
 
 # Create your views here.
@@ -168,7 +169,7 @@ def tags(request):
 class PostByCategoryView(SidebarMixin, ListView):
     model = Post
     template_name = "newsportal/list/list.html"
-    context_object_name = "post"
+    context_object_name = "posts"
     paginate_by = 1
 
     def get_queryset(self):
@@ -179,3 +180,35 @@ class PostByCategoryView(SidebarMixin, ListView):
             category_id=self.kwargs["category_id"],
         ).order_by("-published_at")
         return query
+    
+class NewsletterView(View):
+    def post(self, request):
+        is_ajax = request.headers.get("x-requested-with")
+        if is_ajax == "XMLHttpRequest":
+            form = NewsletterForm(request.POST)
+            if form.is_valid():
+                form.save()
+                return JsonResponse(
+                    {
+                    "success": True,
+                    "message": "Successfully subscribed to the newsletter.",
+                },
+                status = 201,
+                )
+            else:
+                print(form.errors)
+                return JsonResponse(
+                    {
+                        "success": False,
+                        "message": "Cannot subscribe to the newsletter.",
+                    },
+                    status = 400,
+                )
+        else:
+            return JsonResponse(
+                {
+                    "success": False,
+                    "message": "Cannot process. Must be an AJAX XMLHttpRequest",
+                },
+                status = 400,
+            )

@@ -32,6 +32,25 @@
     crossorigin="anonymous"></script>
   <!-- Custom JS -->
   <script src="{% static 'js/script.js' %}"></script>
+  <script src="{% static 'js/jquery-3.7.1.min.js' %}"></script>
+  <script>
+    $("#newsletter_side_form").submit(function (e) {
+      e.preventDefault()
+      let serializedData = $(this).serialize()
+
+      $.ajax({
+        type: "POST",
+        url: "{% url 'newsletter' %}",
+        data: serializedData,
+        success: function (response) {
+          console.log("Success", response)
+        },
+        error: function (response) {
+          console.log("Failure", response)
+        }
+      })
+    })
+  </script>
 </body>
 
 </html>
