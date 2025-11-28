@@ -162,13 +162,13 @@ class TagListView(ListView):
     model = Tag
     template_name = "newsportal/tags.html"
     context_object_name = "tags"
-    
+
 
 class PostByCategoryView(SidebarMixin, ListView):
     model = Post
     template_name = "newsportal/list/list.html"
     context_object_name = "posts"
-    paginate_by = 1
+    paginate_by = 2
 
     def get_queryset(self):
         query = super().get_queryset()
