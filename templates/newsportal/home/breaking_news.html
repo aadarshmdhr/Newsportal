@@ -6,7 +6,7 @@
       <marquee behavior="scroll" direction="left" onmouseover="this.stop();" onmouseout="this.start();">
 
         {% for post in breaking_news %}
-        <a href="article.html" class="text-dark text-decoration-none me-4">{{ post.title }}</a>
+        <a href="{% url 'post-detail' post.pk %}" class="text-dark text-decoration-none me-4">{{ post.title }}</a>
         {% endfor %}
       </marquee>
     </div>

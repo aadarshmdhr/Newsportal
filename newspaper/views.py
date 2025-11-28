@@ -1,6 +1,6 @@
 from django.shortcuts import render
 
-from newspaper.models import Advertisement, Post, Contact, Category, OurTeam
+from newspaper.models import Advertisement, Post, Contact, Category, OurTeam, Tag
 
 from django.views.generic import TemplateView, ListView, DetailView, CreateView
 from django.utils import timezone
@@ -34,7 +34,7 @@ class HomeView(SidebarMixin, TemplateView):
     template_name = "newsportal/home.html"
 
 
-    # If we want to send extra data to the template we user get_context_data
+    # If we want to send extra data to the template we use get_context_data
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
@@ -157,3 +157,10 @@ class AboutView(TemplateView):
         context["our_teams"] = OurTeam.objects.all()
         return context
     
+def tags(request):
+    all_tags = Tag.objects.all()
+    return render(
+        request,
+        "tags.html",
+        {"tags": all_tags}
+    )
