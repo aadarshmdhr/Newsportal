@@ -9,8 +9,10 @@
     <div class="p-4 rounded bg-light shadow-sm tag-cloud-container">
         <!-- Use the existing .article-tags styling for consistency -->
         <div class="article-tags">
-            <a href="tags.html">{{ tag.name|title }}</a>
+            {% for tag in tags %}
+            <a href="#">{{ tag.name|title }}</a>
             <!-- Add more tags as needed -->
+            {% endfor %}
         </div>
     </div>
 </div>
