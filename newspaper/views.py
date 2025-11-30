@@ -66,7 +66,7 @@ class PostListView(SidebarMixin, ListView):
     model = Post
     template_name = "newsportal/list/list.html"
     context_object_name = "posts"
-    paginate_by = 2
+    paginate_by = 3
 
     def get_queryset(self):
         return Post.objects.filter(
@@ -131,6 +131,7 @@ class PostDetailView(SidebarMixin, FormMixin, DetailView):
         )
         return context
     
+
 class ContactCreateView(SuccessMessageMixin, CreateView):
     model = Contact
     template_name = "newsportal/contact.html"
@@ -145,10 +146,12 @@ class ContactCreateView(SuccessMessageMixin, CreateView):
         )
         return super().form_invalid(form)
     
+
 class CategoryListView(ListView):
     model = Category
     template_name = "newsportal/categories.html"
     context_object_name = "categories"
+
 
 class AboutView(TemplateView):
     template_name = "newsportal/about.html"
@@ -157,7 +160,8 @@ class AboutView(TemplateView):
         context = super().get_context_data(**kwargs)
         context["our_teams"] = OurTeam.objects.all()
         return context
-    
+
+
 class TagListView(ListView):
     model = Tag
     template_name = "newsportal/tags.html"
@@ -178,6 +182,23 @@ class PostByCategoryView(SidebarMixin, ListView):
             category_id=self.kwargs["category_id"],
         ).order_by("-published_at")
         return query
+    
+
+class PostByTagView(SidebarMixin, ListView):
+    model = Post
+    template_name = "newsportal/list/list.html"
+    context_object_name = "posts"
+    paginate_by = 1
+
+    def get_queryset(self):
+        query =  super().get_queryset()
+        query = query.filter(
+            published_at__isnull = False,
+            status="active",
+            tag_id=self.kwargs["tag_id"],
+        ).order_by("-published_at")
+        return query
+
     
 class NewsletterView(View):
     def post(self, request):
