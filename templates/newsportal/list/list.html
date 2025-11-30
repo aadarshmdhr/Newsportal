@@ -12,7 +12,7 @@
         <!-- News Listing Column -->
         <div class="col-lg-8">
             <!-- News Item 1 -->
-            {% include "newsportal/list/left/post_list.html" %}
+            {% include "newsportal/list/left/post_list.html" with posts=page_obj %}
 
             {% include "newsportal/list/left/pagination.html" %}
         </div>

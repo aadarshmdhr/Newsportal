@@ -43,7 +43,7 @@
         url: "{% url 'newsletter' %}",
         data: serializedData,
         success: function (response) {
-          console.log("Success", response)
+          // console.log("Success", response)
           $("#newsletter_side_message").html(
             `<div class="alert alert-success alert-dismissible fade show" role="alert">
               ${response.message}
@@ -54,7 +54,7 @@
           )
         },
         error: function (response) {
-          console.log("Failure", response)
+          // console.log("Failure", response)
           $("#newsletter_side_message").html(
             `<div class="alert alert-danger alert-dismissible fade show" role="alert">
               ${response.responseJSON.message}
