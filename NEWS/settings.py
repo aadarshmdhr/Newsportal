@@ -41,6 +41,7 @@ INSTALLED_APPS = [
     'newspaper',
     'accounts',
     'reports',
+    'dashboard',
 ]
 
 MIDDLEWARE = [

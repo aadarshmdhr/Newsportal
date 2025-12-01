@@ -28,7 +28,7 @@ urlpatterns = [
     path("", include("newspaper.urls")),
     path("accounts/", include("accounts.urls")),
     path("reports/", include("reports.urls")),
-
+    path("dashboard/", include("dashboard.urls")),
 ]
 
 
