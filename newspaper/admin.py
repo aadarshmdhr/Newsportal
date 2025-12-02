@@ -29,7 +29,9 @@ class PostAdminForm(forms.ModelForm):
         fields = '__all__'
 
 
-class PostAdmin(admin.ModelAdmin):
+from unfold.admin import ModelAdmin
+
+class PostAdmin(ModelAdmin):
     form = PostAdminForm
     list_display = ('title', 'author', 'status', 'published_at')
     list_filter = ('status', 'category', 'author')
