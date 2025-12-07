@@ -1,7 +1,8 @@
 from django.contrib.auth.models import Group, User
 from rest_framework import permissions, viewsets
 
-from api.serializers import GroupSerializer, UserSerializer
+from api.serializers import CategorySerializer, GroupSerializer, TagSerializer, UserSerializer
+from newspaper.models import Category, Tag
 
 
 class UserViewSet(viewsets.ModelViewSet):
@@ -21,4 +22,18 @@ class GroupViewSet(viewsets.ModelViewSet):
 
     queryset = Group.objects.all().order_by("name")
     serializer_class = GroupSerializer
+    permission_classes = [permissions.IsAuthenticated]
+
+
+class TagViewSet(viewsets.ModelViewSet):
+
+    queryset = Tag.objects.all().order_by("name")
+    serializer_class = TagSerializer
+    permission_classes = [permissions.IsAuthenticated]
+
+
+class CategoryViewSet(viewsets.ModelViewSet):
+
+    queryset = Category.objects.all().order_by("name")
+    serializer_class = CategorySerializer
     permission_classes = [permissions.IsAuthenticated]

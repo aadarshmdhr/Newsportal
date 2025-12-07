@@ -25,10 +25,11 @@ from django.conf.urls.static import static
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('tinymce/', include('tinymce.urls')),
-    path("", include("newspaper.urls")),
+    path("api/v1/", include("api.urls")),
     path("accounts/", include("accounts.urls")),
     path("reports/", include("reports.urls")),
     path("dashboard/", include("dashboard.urls")),
+    path("", include("newspaper.urls")),
 ]
 
 
