@@ -29,7 +29,7 @@ class TagViewSet(viewsets.ModelViewSet):
 
     queryset = Tag.objects.all().order_by("name")
     serializer_class = TagSerializer
-    permission_classes = [permissions.IsAuthenticated]
+    permission_classes = [permissions.IsAdminUser]
 
     def get_permissions(self):
             if self.action in ["list", "retrieve"]:
@@ -42,4 +42,10 @@ class CategoryViewSet(viewsets.ModelViewSet):
 
     queryset = Category.objects.all().order_by("name")
     serializer_class = CategorySerializer
-    permission_classes = [permissions.IsAuthenticated]
+    permission_classes = [permissions.IsAdminUser]
+
+    def get_permissions(self):
+         if self.action in ["list", 'retrieve']:
+              return [permissions.AllowAny()]
+         
+         return super().get_permissions()
