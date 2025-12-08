@@ -31,6 +31,12 @@ class TagViewSet(viewsets.ModelViewSet):
     serializer_class = TagSerializer
     permission_classes = [permissions.IsAuthenticated]
 
+    def get_permissions(self):
+            if self.action in ["list", "retrieve"]:
+                return [permissions.AllowAny()]
+            
+            return super().get_permissions()
+
 
 class CategoryViewSet(viewsets.ModelViewSet):
 
