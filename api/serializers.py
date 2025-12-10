@@ -29,26 +29,27 @@ class CategorySerializer(serializers.ModelSerializer):
 
 
 class PostSerializer(serializers.ModelSerializer):
-    model = Post
-    fields = [
-        "id",
-        "title",
-        "content",
-        "featured_image",
-        "status",
-        "tag",
-        "category",
-        # read only
-        "author",
-        "views_count",
-        "published_at",
-    ]
-    extra_kwargs = {
-        "author": {"read_only": True},
-        "views_count": {"read_only": True},
-        "published_at": {"read_only": True},
-    }
+    class meta:
+        model = Post
+        fields = [
+            "id",
+            "title",
+            "content",
+            "featured_image",
+            "status",
+            "tag",
+            "category",
+            # read only
+            "author",
+            "view_count",
+            "published_at",
+        ]
+        extra_kwargs = {
+            "author": {"read_only": True},
+            "view_count": {"read_only": True},
+            "published_at": {"read_only": True},
+        }
 
-    def validate(self, data):
-        data["author"] = self.context["request"].user
-        return data
+        def validate(self, data):
+            data["author"] = self.context["request"].user
+            return data

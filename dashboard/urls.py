@@ -5,5 +5,5 @@ from dashboard import views
 app_name = "dashboard"
 
 urlpatterns = [
-    path("", views.DashboardHomeView.as_view(), name="dashboard-home"),
+    path("", views.AdminPostListView.as_view(), name="post-list"),
 ]
