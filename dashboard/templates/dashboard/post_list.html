@@ -1,0 +1,40 @@
+{% extends "dashboard/base.html" %}
+
+{% block content %}
+
+<h2>Post List</h2>
+<a href="{% url 'dashboard:post-create' %}" class="btn btn-success">Add New Post</a>
+
+<table>
+    <thead>
+        <tr>
+            <th>#</th>
+            <th>Featured Image</th>
+            <th>Title</th>
+            <th>Category</th>
+            <th>Tags</th>
+            <th>Actions</th>
+        </tr>
+    </thead>
+    <tbody>
+        <!-- Demo Data -->
+        {% for post in posts %}
+
+        <tr>
+            <td>1</td>
+            <td><img src="{{ post.featured_image.url }}" alt="Featured Image" width="100" height="80"
+                    class="featured-image"></td>
+            <td>{{ post.title }}</td>
+            <td>{{ post.category.name }}</td>
+            <td>{{ post.tag.all|join:", "}}</td>
+            <td>
+                <a href="#" class="btn btn-success">Edit</a>
+                <a href="{% url 'dashboard:post-delete' post.pk %}" class="btn btn-danger">Delete</a>
+            </td>
+        </tr>
+
+        {% endfor %}
+    </tbody>
+</table>
+
+{% endblock content %}
