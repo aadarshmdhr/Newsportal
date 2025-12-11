@@ -28,7 +28,7 @@
             <td>{{ post.category.name }}</td>
             <td>{{ post.tag.all|join:", "}}</td>
             <td>
-                <a href="#" class="btn btn-success">Edit</a>
+                <a href="{% url 'dashboard:post-update' post.pk %}" class="btn btn-success">Edit</a>
                 <a href="{% url 'dashboard:post-delete' post.pk %}" class="btn btn-danger">Delete</a>
             </td>
         </tr>
